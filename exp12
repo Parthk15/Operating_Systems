@@ -1,0 +1,63 @@
+#include <stdio.h>
+
+int main() {
+    int n = 1; // number of processes
+    int m;     // number of resources
+
+    printf("Enter number of resources: ");
+    scanf("%d", &m);
+
+    int max[n][m];
+    int allocation[n][m];
+    int need[n][m];
+    int available[m];
+
+    // Input Max matrix
+    printf("Enter MAX matrix for process 0:\n");
+    for(int j=0; j<m; j++) {
+        scanf("%d", &max[0][j]);
+    }
+
+    // Input Allocation matrix
+    printf("Enter Allocation matrix for process 0:\n");
+    for(int j=0; j<m; j++) {
+        scanf("%d", &allocation[0][j]);
+    }
+
+    // Calculate Need = Max - Allocation
+    for(int j=0; j<m; j++) {
+        need[0][j] = max[0][j] - allocation[0][j];
+    }
+
+    // Input Available resources
+    printf("Enter Available resources:\n");
+    for(int j=0; j<m; j++) {
+        scanf("%d", &available[j]);
+    }
+
+    // Check if process can run
+    int canRun = 1;
+    for(int j=0; j<m; j++) {
+        if(need[0][j] > available[j]) {
+            canRun = 0;
+            break;
+        }
+    }
+
+    if(canRun) {
+        printf("Process 0 can safely execute.\n");
+        // Update available after execution
+        for(int j=0; j<m; j++) {
+            available[j] += allocation[0][j];
+        }
+        printf("Available resources after execution: ");
+        for(int j=0; j<m; j++) {
+            printf("%d ", available[j]);
+        }
+        printf("\n");
+    } else {
+        printf("Process 0 cannot execute safely.\n");
+    }
+
+    return 0;
+}
